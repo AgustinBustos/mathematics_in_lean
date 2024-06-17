@@ -38,8 +38,12 @@ example (a b c d e f : ℝ) (h : a * b = c * d) (h' : e = f) : a * (b * e) = c *
 example (a b c d e f : ℝ) (h : b * c = e * f) : a * b * c * d = a * e * f * d := by
   sorry
 
+#check sub_self
 example (a b c d : ℝ) (hyp : c = b * a - d) (hyp' : d = a * b) : c = 0 := by
-  sorry
+  rw [hyp]
+  rw [mul_comm]
+  rw [← hyp']
+  rw [sub_self]
 
 example (a b c d e f : ℝ) (h : a * b = c * d) (h' : e = f) : a * (b * e) = c * (d * f) := by
   rw [h', ← mul_assoc, h, mul_assoc]
@@ -103,14 +107,22 @@ example : (a + b) * (c + d) = a * c + a * d + b * c + b * d := by
   sorry
 
 example (a b : ℝ) : (a + b) * (a - b) = a ^ 2 - b ^ 2 := by
-  sorry
+  calc
+    (a + b) * (a - b) = a*a+b*a-a*b-b*b := by
+      rw [mul_sub,add_mul,add_mul,← sub_sub]
+    _=a ^ 2 - b ^ 2 := by
+      rw [← pow_two,← pow_two,mul_comm,← add_sub (a^2) (a*b) (a*b),sub_self (a*b),add_zero (a^2)]
+
+
+
 
 #check pow_two a
 #check mul_sub a b c
 #check add_mul a b c
-#check add_sub a b c
+#check add_sub (a^2) (a*b) (a*b)
 #check sub_sub a b c
 #check add_zero a
+#check add_assoc (a^2) (a*b) (-a*b)
 
 end
 
