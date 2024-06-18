@@ -1,6 +1,7 @@
 import MIL.Common
 import Mathlib.Data.Real.Basic
 -- An example.
+#check mul_comm
 example (a b c : ℝ) : a * b * c = b * (a * c) := by
   rw [mul_comm a b]
   rw [mul_assoc b a c]
@@ -73,6 +74,8 @@ end
 
 section
 variable (a b : ℝ)
+example : (a + b) * (a + b) = a * a + 2 * (a * b) + b * b := by
+  ring
 
 example : (a + b) * (a + b) = a * a + 2 * (a * b) + b * b := by
   rw [mul_add, add_mul, add_mul]

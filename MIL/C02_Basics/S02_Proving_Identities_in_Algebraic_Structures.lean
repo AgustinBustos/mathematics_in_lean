@@ -54,19 +54,23 @@ theorem neg_add_cancel_left (a b : R) : -a + (a + b) = b := by
 -- Prove these:
 theorem add_neg_cancel_right (a b : R) : a + b + -b = a := by
   rw [add_comm (a+b) (-b),add_comm a b,neg_add_cancel_left b a]
-  
+
 
 theorem add_left_cancel {a b c : R} (h : a + b = a + c) : b = c := by
-  sorry
+  rw [← neg_add_cancel_left a b,h,neg_add_cancel_left]
+
 
 theorem add_right_cancel {a b c : R} (h : a + b = c + b) : a = c := by
   sorry
 
 theorem mul_zero (a : R) : a * 0 = 0 := by
-  have h : a * 0 + a * 0 = a * 0 + 0 := by
-    rw [← mul_add, add_zero, add_zero]
-  rw [add_left_cancel h]
 
+  have h : a * 0 + a * 0 = a * 0 + 0 := by
+
+    rw [← mul_add, add_zero, add_zero]
+
+  rw [add_left_cancel h]
+#check add_zero
 theorem zero_mul (a : R) : 0 * a = 0 := by
   sorry
 
@@ -132,10 +136,14 @@ variable {G : Type*} [Group G]
 
 namespace MyGroup
 
-theorem mul_right_inv (a : G) : a * a⁻¹ = 1 := by
-  sorry
+
 
 theorem mul_one (a : G) : a * 1 = a := by
+  sorry
+theorem mul_right_inv (a : G) : a * a⁻¹ = 1 := by
+  rw [← mul_one a]
+
+
   sorry
 
 theorem mul_inv_rev (a b : G) : (a * b)⁻¹ = b⁻¹ * a⁻¹ := by
